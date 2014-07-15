@@ -1,0 +1,42 @@
+NFR
+1million rows tabular in 1 sec
+
+
+There wil be separate subclasses for generating the actual data value.  This is based on the Strategy pattern
+This will be separate components for writing out the generated value to whatever output
+
+Outputs:
+- console
+- file
+    csv
+    json
+    xml
+- databsae
+
+The inputs
+name
+    range for numbers
+    length for string
+    content for string
+    regex for string
+
+the strategy is based on the input
+
+Given a description of a data value, some code needs to generate the value, and another piece of code needs to
+write it out to some form of output (e.g. console,
+
+DataDescription      need to be groupable e.g. row of csv, table, parent node in xml or json
+    |
+Generated Value
+    |
+Format e.g. CSV, JSON, XML, Tabular(for databases)
+    |
+Destination e.g. console, file, database (and multiple database ones for diff dbms'
+
+Is the format tied to the destination?
+    e.g. databases, an oracle database's data may have different format to that of MySQL
+
+
+-----------------------
+
+There are two main groups of input: tabular (CSV,database) and tree (JSON,XML)
