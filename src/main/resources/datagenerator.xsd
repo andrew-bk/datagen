@@ -1,9 +1,44 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://datagen.ak.org"
+        xmlns="http://datagen.ak.org"
+        elementFormDefault="unqualified">
 
-    <xs:element name="csv">
-        <xs:attribute name="file"      type="xs:string" use="optional" />
-        <xs:attribute name="delimeter" type="xs:string" use="optional" />
+
+
+    <xs:element name="integer" >
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="name"       type="xs:string"    use="required"/>
+
+                    <xs:attribute name="constant"   type="xs:integer"/>
+
+                    <xs:attribute name="from"       type="xs:integer"/>
+                    <xs:attribute name="to"         type="xs:integer"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
     </xs:element>
 
+
+    <xs:element name="csv">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="integer" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+            <xs:attribute name="file"      type="xs:string" />
+            <xs:attribute name="delimiter" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="data">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="csv"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
 </xs:schema>

@@ -1,25 +1,33 @@
+<?xml version="1.0"?>
 
-<example>
+<data xmlns="http://datagen.ak.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://datagen.ak.org datagenerator.xsd">
 
-<csv file="C:\output.csv" delimeter="\t">  <!-- if file not specified, output to console, delimter is also optional, defaults to ',' -->
+<csv file="C:\output.csv" delimiter="\t">  <!-- if file not specified, output to console, delimter is also optional, defaults to ',' -->
 
     <integer  name="ConstantIntegerDatum" constant="1"/>
     <integer  name="IntegerRangeDatum" from="0" to="10"/>
     <sequence name="IntegerSequenceDatum" start="0" step="10" />  <!-- step is optional, 1 by default -->
-    <integer  name="IntegerSetDatum">1,5,3,8,23</integer>
+    <integer  name="IntegerSetDatum">1,5,3,8,23</integer>         <!-- http://blog.bdoughan.com/2010/07/xmladapter-jaxbs-secret-weapon.html -->
+    <date name="ConstantDateDatum" value="24/06/2014" format="yyyyMMdd"/>
 
+    <text name="ConstantStringDatum" constant="CONSTANT"/>
+    <text name="StringRangeDatum" minLength="1" maxLength="10"/>
+    <text name="StringSetDatum">ONE,TWO,THREE</text>
 </csv>
 
+<!--
 
-<json file="C:\output.txt">    <!-- by default, with file not specified, output to console -->
-    <datum/> <!-- 1 or more -->
-    <object> <!-- 0 or more -->
+<json file="C:\output.txt">    by default, with file not specified, output to console
+    <datum/>  1 or more
+    <object>  0 or more
         ...
     </object>
 </json>
+-->
 
 <!-- can't use xml as a tag name-->
 
 
-
-</example>
+</data>

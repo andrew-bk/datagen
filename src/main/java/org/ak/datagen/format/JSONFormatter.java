@@ -4,14 +4,13 @@ import org.ak.datagen.structure.TreeDataStructure;
 
 /**
  */
-public class JSONFormatter implements TreeFormatter {
+public class JSONFormatter  {
 
     // get next objec tformatter in JSON
     public Object getNextObject() {
         return null;
     }
 
-    @Override
     public void format(TreeDataStructure treeDataStructure) {
 
     }

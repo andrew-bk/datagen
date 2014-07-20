@@ -12,7 +12,6 @@ public class ConstantIntegerDatumTest {
         int expectedValue = 12;
         ConstantIntegerDatum constantIntegerDatum = new ConstantIntegerDatum("name", expectedValue);
 
-        assertThat(constantIntegerDatum.generate(), is(instanceOf(Integer.class)));
         assertThat(constantIntegerDatum.generate(), is(expectedValue));
     }
 

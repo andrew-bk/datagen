@@ -1,5 +1,6 @@
 package org.ak.datagen.data;
 
+
 /**
  */
 public class ConstantIntegerDatum extends Datum {

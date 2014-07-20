@@ -1,10 +1,18 @@
 package org.ak;
 
+import org.ak.datagen.config.CSVConfig;
+import org.ak.datagen.config.DataDescription;
 import org.ak.datagen.data.*;
 import org.ak.datagen.format.CSVFormatter;
 import org.ak.datagen.output.ConsoleWriter;
 import org.ak.datagen.structure.TabularDataStructure;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
+import javax.xml.bind.*;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,10 +20,20 @@ import java.util.HashSet;
 /**
  * TODO
  *
- * - formatting of output (e.g. date formats)
- * - xml schema
- * - jaxb binding
+ * - Test the loadConfig method is giving us a DataDecsription that is populated as expected given
+ * a set of XMl files in the tets resources folder.
+ * -- xml bindings for sequence
+ * -- do validation for the attributes that are populated e.g. if you set "from" you must also set "to" and not set "constant"
  *
+ * - move on xml schema + bindings for the other datums, one by one
+ *
+ * ---- Once all elements and attributes for existing datums are covered by xml schema and bindings
+ * - Implement the getDatum methods on the DatumDescriptions
+ * - Move on to creating the Writer, formatter and TabularDataStructure.  Start with the datums/datastructure
+ *
+ * - Do the rest of DataGenerator, loading the config from cli arg and
+ *
+ * - formatting of output (e.g. date formats)
  */
 public class DataGenerator
 {
@@ -55,6 +73,10 @@ public class DataGenerator
         sapGLAccountCodes.add("400000");
         sapGLAccountCodes.add("235110");
 
+        HashSet<Integer> skuTypes = new HashSet<>();
+        skuTypes.add(1);
+        skuTypes.add(2);
+
         TabularDataStructure tabularDataStructure = new TabularDataStructure.TabularDataStructureBuilder()
                 .withRow(
                         new IntegerSequenceDatum("SALE_ID",1,1),
@@ -73,7 +95,7 @@ public class DataGenerator
                         new DecimalRangeDatum("TOTAL_AMOUNT", 0, 20, 2),
                         new StringSetDatum("CONTEXT_TITLE_ID", titleIds),
                         new IntegerRangeDatum("AMORTIZEABLE",0,1),
-                       // "SKU_TYPE"        No        NUMBER(10,0)            Needs IntegerSetDatum
+                        new IntegerSetDatum("SKU_TYPE", skuTypes),
                         new ConstantDateDatum("START_DATE", new Date()),
                         new IntegerRangeDatum("DURATION",1,1000),
                         new IntegerRangeDatum("ORDER_ITEM_ID",1,100000),
@@ -97,5 +119,47 @@ public class DataGenerator
                 .build();
 
         new ConsoleWriter().write(new CSVFormatter(tabularDataStructure));
+
+
     }
+
+    public DataGenerator() {
+        /*
+        Reader reader = new FileReader("config_filename.xml");
+        DataConfig config = loadConfig(reader);
+        config.generateData();
+
+         */
+    }
+
+    public DataDescription loadConfig(Reader reader) throws JAXBException, SAXException {
+
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = sf.newSchema(this.getClass().getResource("/datagenerator.xsd"));
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(DataDescription.class, CSVConfig.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        unmarshaller.setSchema(schema);
+        unmarshaller.setEventHandler(new ValidationEventHandler() {
+            @Override
+            public boolean handleEvent(ValidationEvent event) {
+                System.out.println("\nEVENT");
+                System.out.println("SEVERITY:  " + event.getSeverity());
+                System.out.println("MESSAGE:  " + event.getMessage());
+                System.out.println("LINKED EXCEPTION:  " + event.getLinkedException());
+                System.out.println("LOCATOR");
+                System.out.println("    LINE NUMBER:  " + event.getLocator().getLineNumber());
+                System.out.println("    COLUMN NUMBER:  " + event.getLocator().getColumnNumber());
+                System.out.println("    OFFSET:  " + event.getLocator().getOffset());
+                System.out.println("    OBJECT:  " + event.getLocator().getObject());
+                System.out.println("    NODE:  " + event.getLocator().getNode());
+                System.out.println("    URL:  " + event.getLocator().getURL());
+                return true;
+            }
+        });
+        DataDescription dataDescription = (DataDescription) unmarshaller.unmarshal(reader);
+
+        return dataDescription;
+    }
+
 }

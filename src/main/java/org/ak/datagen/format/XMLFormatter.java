@@ -4,13 +4,12 @@ import org.ak.datagen.structure.TreeDataStructure;
 
 /**
  */
-public class XMLFormatter implements TreeFormatter {
+public class XMLFormatter  {
 
     public Object getNextNode() {
         return null;
     }
 
-    @Override
     public void format(TreeDataStructure treeDataStructure) {
 
     }
