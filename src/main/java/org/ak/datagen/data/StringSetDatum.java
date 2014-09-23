@@ -39,4 +39,8 @@ public class StringSetDatum extends Datum {
     protected void setRandom(Random random) {
         this.random = random;
     }
+
+    public Set<String> getSet() {
+        return set;
+    }
 }

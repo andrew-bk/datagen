@@ -35,7 +35,8 @@ public class ConsoleWriterTest {
     }
 
     @Test
-    public void testThatWhenWriteIsCalledPassingACSVFormatterConfiguredWithADataStructureThatIsConfiguredToGenerateNRowsThenNLinesOfDataAreWrittenToTheConsole() {
+    public void testThatWhenWriteIsCalledPassingACSVFormatterConfiguredWithADataStructureThatIsConfiguredToGenerateHeaderRowAndThenNRowsOfDataThenNPlusOneLinesOfDataAreWrittenToTheConsole() {
+        int HEADER_ROW = 1;
         int N_NUMBER_OF_ROWS = 5;
 
         TabularDataStructure tabularDataStructure = new TabularDataStructure.TabularDataStructureBuilder()
@@ -47,7 +48,7 @@ public class ConsoleWriterTest {
 
         consoleWriter.write(csvFormatter);
 
-        Mockito.verify(systemOutMock, times(N_NUMBER_OF_ROWS)).println(Mockito.any(String.class));
+        Mockito.verify(systemOutMock, times(HEADER_ROW + N_NUMBER_OF_ROWS)).println(Mockito.any(String.class));
     }
 
 }

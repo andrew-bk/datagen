@@ -8,20 +8,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-public abstract class DatumDescription {
+public interface DatumDescription {
 
+    public String getName();
 
-    @XmlAttribute
-    protected String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public abstract Datum getDatum();
+    public Datum getDatum() throws DataMisconfigurationException;
 }

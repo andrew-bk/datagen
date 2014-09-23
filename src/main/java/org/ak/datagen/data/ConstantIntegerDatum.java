@@ -16,4 +16,8 @@ public class ConstantIntegerDatum extends Datum {
     public Integer generate() {
         return this.constantValue;
     }
+
+    public int getConstantValue() {
+        return this.constantValue;
+    }
 }

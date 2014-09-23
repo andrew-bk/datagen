@@ -23,4 +23,12 @@ public class RandomUtil {
             return 0;
         }
     };
+
+    public static Answer WITH_LOWER_BOUND_OF_LONG_RANDOM_RANGE = new Answer<Long>() {
+
+        @Override
+        public Long answer(InvocationOnMock invocationOnMock) throws Throwable {
+            return 0L;
+        }
+    };
 }

@@ -2,6 +2,7 @@ package org.ak.datagen.config;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,25 +10,41 @@ import java.util.List;
  */
 public class CSVConfig {
 
-    List<IntegerDatumDescription> integerDatumDescriptions;
+    List<DatumDescription> datumDescriptions;
     private String file;
     private String delimiter;
 
     public CSVConfig() {
         this.delimiter = ",";
+        this.datumDescriptions = new ArrayList<>();
     }
 
     public String getFile() {
         return file;
     }
 
-    public List<IntegerDatumDescription> getIntegerDatumDescriptions() {
-        return integerDatumDescriptions;
+    public List<DatumDescription> getDatumDescriptions() {
+        return datumDescriptions;
     }
 
     @XmlElement(name="integer")
-    public void setIntegerDatumDescriptions(List<IntegerDatumDescription> integerDatumDescriptions) {
-        this.integerDatumDescriptions = integerDatumDescriptions;
+    public void setIntegerDatumDescription(IntegerDatumDescription integerDatum) {
+        datumDescriptions.add(integerDatum);
+    }
+
+    @XmlElement(name="sequence")
+    public void setSequenceDatumDescription(SequenceDatumDescription sequenceDatumDescription) {
+        datumDescriptions.add(sequenceDatumDescription);
+    }
+
+    @XmlElement(name="text")
+    public void setStringDatumDescription(StringDatumDescription stringDatumDescription) {
+        datumDescriptions.add(stringDatumDescription);
+    }
+
+    @XmlElement(name="randomText")
+    public void setRandomStringDatumDescription(RandomStringDatumDescription randomStringDatumDescription) {
+        datumDescriptions.add(randomStringDatumDescription);
     }
 
     @XmlAttribute
@@ -49,7 +66,7 @@ public class CSVConfig {
         return "CSVConfig{" +
                 "file='" + file + '\'' +
                 ", delimiter='" + delimiter + '\'' +
-                ", numbers=" + integerDatumDescriptions +
+                ", numbers=" + datumDescriptions +
                 '}';
     }
 }

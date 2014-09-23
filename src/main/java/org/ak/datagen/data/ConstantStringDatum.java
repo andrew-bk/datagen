@@ -18,4 +18,8 @@ public class ConstantStringDatum extends Datum {
     public String generate() {
         return this.constantValue;
     }
+
+    public String getConstantValue() {
+        return this.constantValue;
+    }
 }

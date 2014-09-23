@@ -6,45 +6,53 @@ import java.util.Random;
  */
 public class IntegerRangeDatum extends Datum {
 
-    private int min;
-    private int max;
+    private int from;
+    private int to;
 
     private Random random;
 
     /**
      *
      * @param name
-     * @param min (inclusive)
-     * @param max (inclusive)
+     * @param from (inclusive)
+     * @param to (inclusive)
      */
-    public IntegerRangeDatum(String name, int min, int max) {
+    public IntegerRangeDatum(String name, int from, int to) {
         super(name);
 
-        if(max < min) {
-            throw new IllegalArgumentException("Maximum must be greater than minimum");
+        if(to < from) {
+            throw new IllegalArgumentException("'to' must be greater than 'from'");
         }
-        this.min = min;
-        this.max = max;
+        this.from = from;
+        this.to = to;
 
         this.random = new Random();
     }
 
     public Integer generate() {
-        if(min == max) {
-            return max;
+        if(from == to) {
+            return to;
         }
 
-        int range = max - min + 1;
+        int range = to - from + 1;
 
-        return random.nextInt(range) + min;
+        return random.nextInt(range) + from;
+    }
+
+    public int getFrom() {
+        return this.from;
+    }
+
+    public int getTo() {
+        return this.to;
     }
 
     @Override
     public String toString() {
         return "IntegerRangeDatum{" +
                 "name='" + getName()  + '\'' +
-                ", max=" + max +
-                ", min=" + min +
+                ", from=" + from +
+                ", to=" + to +
                 '}';
     }
 

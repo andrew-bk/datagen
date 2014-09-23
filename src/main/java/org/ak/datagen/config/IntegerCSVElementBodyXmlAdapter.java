@@ -11,13 +11,15 @@ import static java.util.stream.Collectors.joining;
 
 /**
  */
-public class CSVElementBodyXmlAdapter extends XmlAdapter<String, Set<Integer>> {
+public class IntegerCSVElementBodyXmlAdapter extends XmlAdapter<String, Set<Integer>> {
 
     @Override
     public Set<Integer> unmarshal(String str) throws Exception {
-        return Arrays.asList(str.split(",")).stream()
-                .map(s -> Integer.parseInt(s))
-                .collect(Collectors.toSet());
+        return str.length() > 0
+                ? Arrays.asList(str.split(",")).stream()
+                    .map(s -> Integer.parseInt(s))
+                    .collect(Collectors.toSet())
+                : new HashSet<Integer>();
     }
 
     @Override

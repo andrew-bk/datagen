@@ -8,15 +8,15 @@ public class StringRangeDatum extends Datum {
 
     private String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private Random random;
-    private int max;
-    private int min;
+    private int maxLength;
+    private int minLength;
 
-    public StringRangeDatum(String name, int min, int max) {
+    public StringRangeDatum(String name, int minLength, int maxLength) {
         super(name);
         this.random = new Random();
 
-        this.max = max;
-        this.min = min;
+        this.maxLength = maxLength;
+        this.minLength = minLength;
     }
 
     /**
@@ -28,7 +28,7 @@ public class StringRangeDatum extends Datum {
 
         String value = "";
 
-        int length = this.random.nextInt(max - min + 1) + min;
+        int length = this.random.nextInt(maxLength - minLength + 1) + minLength;
         for(int i = 0; i < length; i++) {
             value += characters.charAt(random.nextInt(characters.length()));
         }
@@ -37,5 +37,13 @@ public class StringRangeDatum extends Datum {
 
     protected void setRandom(Random random) {
         this.random = random;
+    }
+
+    public int getMinLength() {
+        return minLength;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
     }
 }

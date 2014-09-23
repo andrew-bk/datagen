@@ -28,7 +28,7 @@ public class IntegerSetDatumTest {
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void testThatWhenIntegerSetDatumIsConstructedWithemptySetThenExpectedExceptionIsThrown() {
+    public void testThatWhenIntegerSetDatumIsConstructedWithNullSetThenExpectedExceptionIsThrown() {
         IntegerSetDatum integerSetDatum = new IntegerSetDatum("Name", null);
         fail();
     }

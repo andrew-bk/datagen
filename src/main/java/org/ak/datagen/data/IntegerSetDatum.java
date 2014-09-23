@@ -37,4 +37,8 @@ public class IntegerSetDatum extends Datum {
     protected void setRandom(Random random) {
         this.random = random;
     }
+
+    public Set<Integer> getSet() {
+        return this.set;
+    }
 }

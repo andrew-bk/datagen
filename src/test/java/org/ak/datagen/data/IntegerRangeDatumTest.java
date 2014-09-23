@@ -29,7 +29,7 @@ public class IntegerRangeDatumTest {
 
 
     @Test(expected=IllegalArgumentException.class)
-    public void testThatWhenAnIntegerRangeDatumIsConstructedWithAMaxValueGreaterThanAMinValue() {
+    public void testThatWhenAnIntegerRangeDatumIsConstructedWithAToValueGreaterThanAFromValue() {
         IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", 10, 5);
         fail();
     }
@@ -42,74 +42,74 @@ public class IntegerRangeDatumTest {
     }
 
     @Test
-    public void testThatIfIntegerRangeDatumConstructedWithMinAndMaxTheSameThenTheNumberItGeneratesIsTheSameASTheMinAndMax() {
+    public void testThatIfIntegerRangeDatumConstructedWithFromAndToTheSameThenTheNumberItGeneratesIsTheSameASTheFromAndTo() {
         IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", 5,5);
 
         assertThat(integerRangeDatum.generate(), is(equalTo(5)));
     }
 
     @Test
-    public void testThatWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfMax() {
+    public void testThatWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfTo() {
 
-        int max = 10;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", 0, max);
+        int to = 10;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", 0, to);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_UPPER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(max)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(to)));
     }
 
     @Test
-    public void testThatWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfMin() {
+    public void testThatWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfFrom() {
 
-        int min = 0;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", min, 10);
+        int from = 0;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", from, 10);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_LOWER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(min)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(from)));
 
     }
 
     @Test
-    public void testThatGivenAnIntegerRangeDatumWithANegativeMinValueAndPositiveMaxValueWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfMin() {
-        int min = -20;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", min, 10);
+    public void testThatGivenAnIntegerRangeDatumWithANegativeFromValueAndPositiveToValueWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfFrom() {
+        int from = -20;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", from, 10);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_LOWER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(min)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(from)));
     }
 
     @Test
-    public void testThatGivenAnIntegerRangeDatumWithANegativeMinValueAndPositiveMaxValueWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfMax() {
-        int max = 10;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", -20, max);
+    public void testThatGivenAnIntegerRangeDatumWithANegativeFromValueAndPositiveToValueWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfTo() {
+        int to = 10;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", -20, to);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_UPPER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(max)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(to)));
     }
 
     @Test
-    public void testThatGivenAnIntegerRangeDatumWithANegativeMinValueAndNegativeMaxValueWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfMin() {
-        int min = -40;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", min, -30);
+    public void testThatGivenAnIntegerRangeDatumWithANegativeFromValueAndNegativeToValueWhenTheRandomNumberGeneratorReturnsTheLowerBoundThenIntegerRangeDatumReturnsTheValueOfFrom() {
+        int from = -40;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", from, -30);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_LOWER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(min)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(from)));
     }
 
 
     @Test
-    public void testThatGivenAnIntegerRangeDatumWithANegativeMinValueAndNegativeMaxValueWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfMax() {
-        int max = -12;
-        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", -75, max);
+    public void testThatGivenAnIntegerRangeDatumWithANegativeFromValueAndNegativeToValueWhenTheRandomNumberGeneratorReturnsTheUpperBoundThenIntegerRangeDatumReturnsTheValueOfTo() {
+        int to = -12;
+        IntegerRangeDatum integerRangeDatum = new IntegerRangeDatum("name", -75, to);
         integerRangeDatum.setRandom(randomMock);
         when(randomMock.nextInt(anyInt())).thenAnswer(WITH_UPPER_BOUND_OF_RANDOM_RANGE);
 
-        assertThat(integerRangeDatum.generate(), is(equalTo(max)));
+        assertThat(integerRangeDatum.generate(), is(equalTo(to)));
     }
 
 }

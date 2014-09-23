@@ -20,20 +20,40 @@ import java.util.HashSet;
 /**
  * TODO
  *
- * - Test the loadConfig method is giving us a DataDecsription that is populated as expected given
- * a set of XMl files in the tets resources folder.
- * -- xml bindings for sequence
- * -- do validation for the attributes that are populated e.g. if you set "from" you must also set "to" and not set "constant"
+ * Date formatting:
+ * - how do we cope with date, date + time or just time as specified as the value for constant or from/to
+ * - displayFormat needs to be added to the DateRange and ConstantDate Datums
  *
- * - move on xml schema + bindings for the other datums, one by one
+ * XML Configuration
+ *
+ * Notes
+ * - the datumdescriptino tests are for testing getDautm, the jaxb tests shoudl go in DataGeneratorTest
+ *
+ * - make the timeone pattern work for the latets test in DaetDatumDeescriptionTest
+ * - do tests for when the given constnat date has too much or too little information for each of the 3 types of date (LocalDate, LocalDateTime, ZonedDateTime)
+ * - move on to DateRangeDatum
+ *
+ * - consider putting public String format() in the Datum parent with generate().toString() as default impl
+ * - add JAXB bindings and getDatum() code for ConstantDateDatum
+ * - add JAXB bindings and getDatu() code for DateRangeDatum
+ * - add LocalDate and LocalDateTime support to DateRangeDatum
+ *
+ * - make dateTimePattern user configurable
+ * - split up all of the JAXB tests by tag in the same way as StringDatumJAXBTest and make the tests fail if there is xml parse/xsd errors
+ * - cannot mix tags inside the CSV tag
  *
  * ---- Once all elements and attributes for existing datums are covered by xml schema and bindings
- * - Implement the getDatum methods on the DatumDescriptions
  * - Move on to creating the Writer, formatter and TabularDataStructure.  Start with the datums/datastructure
+ * - formatting of output (e.g. date formats)                      *
+ * - Do the rest of DataGenerator, loading the config from cli arg
+ * - make the DateDatumDescription.inputDateFormat user configurable
  *
- * - Do the rest of DataGenerator, loading the config from cli arg and
+ * -- change the illegalArgumentExceptions to DataMisconfigurationExceptions in the Datums to make it more user friendly
+ * -- Integration testing from XML config to Writer output
  *
- * - formatting of output (e.g. date formats)
+ *
+ * -- Should do some usability testing where I try misconfiguring the xml and see what the error message quality is like
+ *
  */
 public class DataGenerator
 {
@@ -45,7 +65,7 @@ public class DataGenerator
     {
         int inputFileId = args.length > 0 ? Integer.parseInt(args[0]) : 1;
 
-        HashSet<String> transactionStatusCodes = new HashSet<>();
+        HashSet<String> transactionStatusCodes = new HashSet<String>();
         transactionStatusCodes.add("2");
         transactionStatusCodes.add("9");
         transactionStatusCodes.add("26F");
@@ -83,7 +103,7 @@ public class DataGenerator
                         new IntegerSequenceDatum("TRANSACTION_ID",1,1),
                         new ConstantIntegerDatum("INPUT_FILE_ID", inputFileId),
                         new StringSetDatum("TRANSACTION_STATUS_CODE", transactionStatusCodes),
-                        new ConstantDateDatum("TRANSACTION_DATE", new Date()),
+                        ///new ConstantDateDatum("TRANSACTION_DATE", new Date()),
                         new StringSetDatum("COUNTRY_CODE", countryIsoCodes),
                         new StringSetDatum("CURRENCY_CODE", currencyIsoCodes),
                         new ConstantStringDatum("FUNDING_TYPE", "FUNDING_TYPE"),
@@ -96,7 +116,7 @@ public class DataGenerator
                         new StringSetDatum("CONTEXT_TITLE_ID", titleIds),
                         new IntegerRangeDatum("AMORTIZEABLE",0,1),
                         new IntegerSetDatum("SKU_TYPE", skuTypes),
-                        new ConstantDateDatum("START_DATE", new Date()),
+                       // new ConstantDateDatum("START_DATE", new Date()),
                         new IntegerRangeDatum("DURATION",1,1000),
                         new IntegerRangeDatum("ORDER_ITEM_ID",1,100000),
                         new IntegerRangeDatum("PSN_SKU_PRODUCT_ID",100000,1000000),
@@ -126,8 +146,8 @@ public class DataGenerator
     public DataGenerator() {
         /*
         Reader reader = new FileReader("config_filename.xml");
-        DataConfig config = loadConfig(reader);
-        config.generateData();
+        DataDescription dataDescription = loadConfig(reader);
+        dataDescription.generateData();
 
          */
     }
@@ -140,7 +160,7 @@ public class DataGenerator
         JAXBContext jaxbContext = JAXBContext.newInstance(DataDescription.class, CSVConfig.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         unmarshaller.setSchema(schema);
-        unmarshaller.setEventHandler(new ValidationEventHandler() {
+       /* unmarshaller.setEventHandler(new ValidationEventHandler() {
             @Override
             public boolean handleEvent(ValidationEvent event) {
                 System.out.println("\nEVENT");
@@ -157,9 +177,8 @@ public class DataGenerator
                 return true;
             }
         });
-        DataDescription dataDescription = (DataDescription) unmarshaller.unmarshal(reader);
-
-        return dataDescription;
+         */
+        return (DataDescription) unmarshaller.unmarshal(reader);
     }
 
 }

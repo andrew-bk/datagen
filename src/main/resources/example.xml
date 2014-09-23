@@ -4,16 +4,27 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://datagen.ak.org datagenerator.xsd">
 
-<csv file="C:\output.csv" delimiter="\t">  <!-- if file not specified, output to console, delimter is also optional, defaults to ',' -->
+<!--
+If 'file' is not specified, the data is output to the console.
+If 'delimiter' is not specified then it defaults to comma
+-->
+<csv file="C:\output.csv" delimiter="\t">
 
     <integer  name="ConstantIntegerDatum" constant="1"/>
     <integer  name="IntegerRangeDatum" from="0" to="10"/>
-    <sequence name="IntegerSequenceDatum" start="0" step="10" />  <!-- step is optional, 1 by default -->
-    <integer  name="IntegerSetDatum">1,5,3,8,23</integer>         <!-- http://blog.bdoughan.com/2010/07/xmladapter-jaxbs-secret-weapon.html -->
-    <date name="ConstantDateDatum" value="24/06/2014" format="yyyyMMdd"/>
+    <!-- just specifying one number in the set is the same as the ConstantIntegerDatum but with a little bit less typing -->
+    <integer  name="IntegerSetDatum">1,5,3,8,23</integer>
+
+
+    <!-- step is optional, 1 by default -->
+    <sequence name="IntegerSequenceDatum" start="0" step="10" />
+
+    <date name="ConstantDateDatum" constant="24/06/2014" displayFormat="yyyyMMdd"/>
+    <!-- the expected format of constant is the default for your locale, which we will allow to be overriden by a global vairable
+    displayFormat is optional and defaults to the default for your locale -->
 
     <text name="ConstantStringDatum" constant="CONSTANT"/>
-    <text name="StringRangeDatum" minLength="1" maxLength="10"/>
+    <randomText name="StringRangeDatum" minLength="1" maxLength="10"/>
     <text name="StringSetDatum">ONE,TWO,THREE</text>
 </csv>
 

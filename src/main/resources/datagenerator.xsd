@@ -22,11 +22,36 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="sequence">
+        <xs:complexType>
+            <xs:attribute name="name"   type="xs:string"    use="required"/>
+            <xs:attribute name="start"  type="xs:integer"   use="required"/>
+            <xs:attribute name="step"   type="xs:integer"   />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="text">
+        <xs:complexType>
+            <xs:attribute name="name"       type="xs:string"    use="required"/>
+            <xs:attribute name="constant"   type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="randomText">
+        <xs:complexType>
+            <xs:attribute name="name"       type="xs:string"    use="required"/>
+            <xs:attribute name="minLength"  type="xs:integer"   use="required"/>
+            <xs:attribute name="maxLength"  type="xs:integer"   use="required"/>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="csv">
         <xs:complexType>
             <xs:choice>
-                <xs:element ref="integer" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="integer"   minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="sequence"  minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="text"      minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="randomText"    minOccurs="0" maxOccurs="unbounded"/>
             </xs:choice>
             <xs:attribute name="file"      type="xs:string" />
             <xs:attribute name="delimiter" type="xs:string" />
